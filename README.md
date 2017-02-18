@@ -6,16 +6,16 @@ Vision processing repository
 
 ##To Install
 
--First install virtualenv, python3 and pip.
+-First install `virtualenv`, `python3` and `pip`.
 
 -Clone the repository
 
--In the terminal run `virtualenv -p python3 venv'
+-In the terminal run `virtualenv -p python3 venv`
 
--Then run 'source venv/bin/activate'
+-Then run `source venv/bin/activate`
 
 -By now you are in your virtual environment
 
--Install numpy, and opencv through 'pip install numpy opencv-python'
+-Install numpy, and opencv through `pip install numpy opencv-python imutils scipy scikit-image`
 
--Everything should be good to go from here!
+
