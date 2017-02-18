@@ -19,3 +19,13 @@ Vision processing repository
 -Install numpy, and opencv through `pip install numpy opencv-python imutils scipy scikit-image`
 
 
+
+###What's Working?
+
+Currently, our strategy has been to adjust camera contrast and hue ratings such that most objects maintain an
+orangeish yellow hue. The GREEN LED light creates a green image on the reflective tape.
+
+Then, we create contours from regions above a threshold grayscale brightness and eliminate those that aren't
+the color green.
+
+Mixed results thus far...
