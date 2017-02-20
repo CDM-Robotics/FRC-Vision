@@ -29,3 +29,15 @@ Then, we create contours from regions above a threshold grayscale brightness and
 the color green.
 
 Mixed results thus far...
+We need to make sure that the camera maintains a high contrast/hue setting to make the green easily distinguishable
+
+
+#TODO
+
+After finding the contours, we need to begin extracting data from them. These include:
+
+-Distance
+-Height
+-Angle
+
+for determining bot movement, and catapult launching mechanisms.
