@@ -1,0 +1,8 @@
+v4l2-ctl -c brightness=0
+v4l2-ctl -c white_balance_temperature_auto=0
+v4l2-ctl -c white_balance_temperature=10000
+v4l2-ctl -c gain=0
+v4l2-ctl -c exposure_auto=1
+v4l2-ctl -c exposure_absolute=30
+v4l2-ctl -c exposure_auto_priority=0
+
