@@ -79,6 +79,7 @@ for (i, c) in enumerate(cnts):
 #	labeler=ColorLabeler()
 #	color=labeler.label(lab,c)
 	#print("color is", color)
+
 #	if color is "green":
 #	(x, y, w, h) = cv2.boundingRect(c)
 #	((cX, cY), radius) = cv2.minEnclosingCircle(c)
@@ -92,6 +93,7 @@ cv2.drawContours(dst, results, -1, (0, 0, 255), 1)
 cv2.imwrite("Rect.png",dst)
 
 cv2.drawContours(image, results, -1, (0, 0, 255), 1)
+
 
 # show the output image
 cv2.imwrite("finished.png", image)
