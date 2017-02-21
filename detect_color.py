@@ -5,6 +5,7 @@ import numpy as np
 import cv2
 
 
+
 class ColorLabeler:
     def __init__(self):
         # initialize the colors dictionary, containing the color
