@@ -15,7 +15,7 @@ args = vars(ap.parse_args())
 
 # load the image, convert it to grayscale, and blur it
 image = cv2.imread(args["image"])
-gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 blurred = cv2.GaussianBlur(gray, (11, 11), 0)
 
 lab = cv2.cvtColor( cv2.GaussianBlur(image, (5,5),0 ), cv2.COLOR_BGR2LAB) #used for the color detector
@@ -23,7 +23,10 @@ lab = cv2.cvtColor( cv2.GaussianBlur(image, (5,5),0 ), cv2.COLOR_BGR2LAB) #used 
 
 # threshold the image to reveal light regions in the
 # blurred image
-thresh = cv2.threshold(blurred, 100, 255, cv2.THRESH_BINARY)[1]
+lower_green = np.array([55,160,70])
+upper_green = np.array([75,255,255])
+thresh = cv2.inRange(blurred, lower_green, upper_green)
+#thresh = cv2.threshold(blurred, 100, 255, cv2.THRESH_BINARY)[1]
 
 # perform a series of erosions and dilations to remove
 # any small blobs of noise from the thresholded image
@@ -35,6 +38,12 @@ thresh = cv2.dilate(thresh, None, iterations=4)
 # components
 labels = measure.label(thresh, neighbors=8, background=0)
 mask = np.zeros(thresh.shape, dtype="uint8")
+
+
+##Debugging!!!
+cv2.imwrite("blurredGray.png", blurred)
+#cv2.imwrite("blurredLAB.png", lab)
+cv2.imwrite("threshed.png", thresh)
 
 # loop over the unique components
 for label in np.unique(labels):
@@ -60,29 +69,39 @@ cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
 cnts = cnts[0] if imutils.is_cv2() else cnts[1]
 cnts = contours.sort_contours(cnts)[0]
 
+results = []
 # loop over the contours
 for (i, c) in enumerate(cnts):
+	hull = cv2.convexHull(c)
+	a2 = cv2.approxPolyDP(hull, 0.01*cv2.arcLength(hull, True), True)
+	results.append(a2)
 	# draw the bright spot on the image
-	labeler=ColorLabeler()
-	color=labeler.label(lab,c)
+#	labeler=ColorLabeler()
+#	color=labeler.label(lab,c)
 	#print("color is", color)
-	if color is "green":
-		(x, y, w, h) = cv2.boundingRect(c)
-		((cX, cY), radius) = cv2.minEnclosingCircle(c)
-		cv2.circle(image, (int(cX), int(cY)), int(radius),
-			(0, 0, 255)   , 3)
 
-		cv2.rectangle(image, (int(x),int(y)), (int(x+w),int(y+h)), (255,0,0), 3)
-		cv2.putText(image, "#{}".format(i + 1), (x, y - 15),
-			cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
+#	if color is "green":
+#	(x, y, w, h) = cv2.boundingRect(c)
+#	((cX, cY), radius) = cv2.minEnclosingCircle(c)
+#	cv2.circle(image, (int(cX), int(cY)), int(radius),
+#		(0, 0, 255)   , 3)
+#	cv2.putText(image, "#{}".format(i + 1), (x, y - 15),
+#		cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
+
+dst = np.zeros(shape=image.shape, dtype=image.dtype)
+cv2.drawContours(dst, results, -1, (0, 0, 255), 1)
+cv2.imwrite("Rect.png",dst)
+
+cv2.drawContours(image, results, -1, (0, 0, 255), 1)
+
 
 # show the output image
 cv2.imwrite("finished.png", image)
 
+
 ##Debugging!!!
 cv2.imwrite("blurredGray.png", blurred)
 cv2.imwrite("blurredLAB.png", lab)
-cv2.imwrite("threshed.png", thresh)
-
+##cv2.imwrite("threshed.png", thresh)
 
 #cv2.waitKey(0)
