@@ -41,3 +41,13 @@ After finding the contours, we need to begin extracting data from them. These in
 -Angle
 
 for determining bot movement, and catapult launching mechanisms.
+
+
+#Designs
+
+Idea is that main python file will receive an image from the Java side over Network Tables. It will then call the `image.py` method which
+should return a list of contours...
+
+These contours will be passed through to an analysis class which will extract the data...
+
+Then, the main python file will return through NetworkTables the correct direction/decision to be made.
