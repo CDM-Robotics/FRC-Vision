@@ -129,8 +129,6 @@ def start_img_processing(image_path=""):
 			distance = distance_to_target()
 			table.send_data(angle,0,distance)
 			table.send_viewability(true)
-		else:
-			table.send_viewability(false)
 		#dst = np.zeros(shape=image.shape, dtype=image.dtype)
 		#cv2.drawContours(dst, results, -1, (0, 0, 255), 1)
 	
